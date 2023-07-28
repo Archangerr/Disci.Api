@@ -1,0 +1,3 @@
+﻿<Project>
+  <Import Project="..\build\DisciApp.Api.props" />
+</Project>
