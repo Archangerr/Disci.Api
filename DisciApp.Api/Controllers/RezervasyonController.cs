@@ -18,14 +18,27 @@ namespace DisciApp.Api.Controllers
             _context = context;
         }
 
+        //[HttpPost]
+        //public async Task SaveImage(string imageBase64)
+        //{
+        //    var myEntity = new Img
+        //    {
+        //        ImageBase64 = imageBase64
+        //        // set other properties
+        //    };
+
+        //  //  _context.
+        //    await _context.SaveChangesAsync();
+        //}
+
         [HttpPost]
         public async Task<IActionResult> RezervasyonYap(RezervasyonRequestDTO request)
         {
 
             //DateTime date;
             //bool success = DateTime.TryParseExact(request.RezervasyonTarihi, "yyyyMMdd",
-            //                                      System.Globalization.CultureInfo.InvariantCulture,
-            //                                      System.Globalization.DateTimeStyles.None,
+            //                                     System.Globalization.CultureInfo.InvariantCulture,
+            //                                     System.Globalization.DateTimeStyles.None,
             //                                      out date);
 
             //if (success)
@@ -34,24 +47,29 @@ namespace DisciApp.Api.Controllers
             //}
             //else
             //{
-            //    return BadRequest("Tarih formati hatali");
+            //   return BadRequest("Tarih formati hatali");
             //}
 
             if (request.RezervasyonTarihi.Hour != 0 || request.RezervasyonTarihi.Minute != 0 || request.RezervasyonTarihi.Second != 0)
             {
-                return BadRequest("Tarih sadece gun bilgisi iceriyor olmali");
+                //Exception handling
+                throw new ApplicationException("Tarih sadece gun bilgisi iceriyor olmali");
+               
             }
 
             var bitisSaat = request.BaslangicSaat + request.Sure;
 
             if (request.BaslangicSaat < 9 || bitisSaat > 17)
             {
-                return BadRequest("Mesai saati disinda");
+                //Exception handling
+                throw new ApplicationException("Mesai saati disinda");
             }
 
             if (request.RezervasyonTarihi.DayOfWeek == DayOfWeek.Saturday || request.RezervasyonTarihi.DayOfWeek == DayOfWeek.Sunday)
             {
-                return BadRequest("Mesai saati disinda");
+                //Exception handling
+                throw new ApplicationException("Mesai saati disinda");
+                
             }
 
             var overlappingReservation = await _context.Rezervasyonlar
@@ -81,34 +99,34 @@ namespace DisciApp.Api.Controllers
 
         [HttpGet]
         [Route("Rezervasyon Kontrol")]
-       // public async Task<IActionResult> RezervasyonKontrol([FromBody]RezervasyonKontrolRequestDTO request)
+        // public async Task<IActionResult> RezervasyonKontrol([FromBody]RezervasyonKontrolRequestDTO request)
         public async Task<IActionResult> RezervasyonKontrol(string BaslangicTarihiString, string BitisTarihiString)
         {
             DateTime BaslangicTarihi;
             DateTime BitisTarihi;
-            var sucsess1 = DateTime.TryParseExact(BaslangicTarihiString,
+            var success1 = DateTime.TryParseExact(BaslangicTarihiString,
                            "yyyy-MM-dd",
                            System.Globalization.CultureInfo.InvariantCulture,
                            System.Globalization.DateTimeStyles.None,
                            out BaslangicTarihi);    
-            var sucsess2 = DateTime.TryParseExact(BitisTarihiString,
+            var success2 = DateTime.TryParseExact(BitisTarihiString,
                            "yyyy-MM-dd",
                            System.Globalization.CultureInfo.InvariantCulture,
                            System.Globalization.DateTimeStyles.None,
                            out BitisTarihi);
 
-            //if (success1 && success2)
-            //{
+            if (success1 && success2)
+            {
 
-            //}
-            //else
-            //{
-            //    return BadRequest("Tarih formati hatali");
-            //}
+            }
+            else
+            {   //Exception handling
+                throw new ApplicationException("Tarih formati hatali");
+            }
             if (BaslangicTarihi.Hour != 0 ||BaslangicTarihi.Minute != 0 || BaslangicTarihi.Second != 0 ||
                 BitisTarihi.Hour != 0 || BitisTarihi.Minute != 0 || BitisTarihi.Second != 0)
             {
-                return BadRequest("Tarih sadece gun bilgisi iceriyor olmali");
+                throw new ApplicationException("Tarih sadece gun bilgisi iceriyor olmali");
             }
 
             var rezervasyonlar = await _context.Rezervasyonlar

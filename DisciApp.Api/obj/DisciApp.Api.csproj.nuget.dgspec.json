@@ -45,6 +45,22 @@
         "net6.0": {
           "targetAlias": "net6.0",
           "dependencies": {
+            "AspNetCore.HealthChecks.UI": {
+              "target": "Package",
+              "version": "[7.0.1, )"
+            },
+            "AspNetCore.HealthChecks.UI.Client": {
+              "target": "Package",
+              "version": "[7.0.0, )"
+            },
+            "AspNetCore.HealthChecks.UI.Core": {
+              "target": "Package",
+              "version": "[7.0.0, )"
+            },
+            "Devart.Data.PostgreSql": {
+              "target": "Package",
+              "version": "[8.1.151, )"
+            },
             "Microsoft.EntityFrameworkCore": {
               "target": "Package",
               "version": "[7.0.9, )"
@@ -56,6 +72,10 @@
             "Microsoft.EntityFrameworkCore.Tools": {
               "include": "Runtime, Build, Native, ContentFiles, Analyzers, BuildTransitive",
               "suppressParent": "All",
+              "target": "Package",
+              "version": "[7.0.9, )"
+            },
+            "Microsoft.Extensions.Diagnostics.HealthChecks": {
               "target": "Package",
               "version": "[7.0.9, )"
             },
